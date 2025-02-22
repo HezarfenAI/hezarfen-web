@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import { ModeToggle } from "@/components/modeToggle";
 import { useState } from "react";
 import axios from "axios";
+import {sendQuesstion} from "@/server-actions/ai-actions";
 
 const Modal = dynamic(
   () => import("@/components/alert").then((mod) => mod.Alert),
@@ -16,7 +17,7 @@ const Modal = dynamic(
     loading: () => <></>,
   }
 );
-
+ 
 export default function Home() {
   const [message, setMessage] = useState<string>("");
   const [loding, setLoading] = useState<boolean>(false);
@@ -31,13 +32,11 @@ export default function Home() {
   const ask = async () => {
     if (message.trim() === "") return;
     setMessage("");
-    let response = await axios.post(
-      `http://185.233.164.103/v1/hezarfen/fake-news-checker?text=${encodeURIComponent(message)}`,
-    );
+    let response = await sendQuesstion(message);
     setHistory([
       ...history,
       { id: history.length + 2, message: message, isBot: false },
-      { id: history.length + 1, message: response.data.analyze_result, isBot: true },
+      { id: history.length + 1, message: response, isBot: true },
     ]);
   };
 
