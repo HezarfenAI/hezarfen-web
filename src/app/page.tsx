@@ -9,6 +9,7 @@ import { ModeToggle } from "@/components/modeToggle";
 import { useState } from "react";
 import axios from "axios";
 import {sendQuesstion} from "@/server-actions/ai-actions";
+import Navbar from "@/components/navbar";
 
 const Modal = dynamic(
   () => import("@/components/alert").then((mod) => mod.Alert),
@@ -41,19 +42,8 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-[100dvh] flex-col">
+    <div className="flex h-full flex-col">
       <Modal />
-      <header className="flex items-center justify-between border-b border-neutral-200 bg-white px-6 py-4 dark:border-neutral-800 dark:bg-neutral-900">
-        <div className="flex items-center gap-4">
-          <Avatar>
-            <AvatarImage alt="Chatbot Avatar" src="/logo.png" />
-          </Avatar>
-          <div className="text-lg font-medium">Hezarfen v0.0.1</div>
-        </div>
-        <div>
-          <ModeToggle />
-        </div>
-      </header>
       <div className="flex-1 overflow-y-auto px-6 py-8">
         <div className="flex flex-col gap-4">
           {history.map((item) => (
@@ -74,10 +64,10 @@ export default function Home() {
                 </Avatar>
               )}
               <div
-                className={`max-w-[75%] rounded-lg border border-neutral-200 bg-${
+                className={`max-w-[75%] border-none bg-transparent rounded-lg border border-neutral-200 bg-${
                   item.isBot ? "white" : "neutral-100"
                 } p-4 text-sm shadow-sm dark:border-neutral-800 dark:bg-${
-                  item.isBot ? "neutral-950" : "neutral-900"
+                  item.isBot ? "neutral-900" : "neutral-900"
                 }`}
               >
                 <p>{item.message}</p>
@@ -86,12 +76,12 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <div className="border-t border-neutral-200 bg-white px-6 py-4 dark:border-neutral-800 dark:bg-neutral-950">
+      <div className="border-t px-6 py-4">
         <div className="flex items-center gap-4">
           <Input
             onChange={(e) => setMessage(e.currentTarget.value)}
             value={message}
-            className="flex-1"
+            className="flex-1 bg-transparent"
             placeholder="Herhangi bir soru sorun..."
           />
           <Button onClick={ask}>
